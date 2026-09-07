@@ -1,0 +1,57 @@
+## JOCKY Functions and Loops Test
+## Tests: function definitions, parameters, return values, recursion-free loops.
+
+## Returns n doubled
+func double(n : num) -> num {
+    give n * 2
+}
+
+## Returns the factorial of n (iterative, no recursion needed)
+func factorial(n : num) -> num {
+    var result : num := 1
+    var i      : num := 2
+    loop (i lte n) {
+        result <- result * i
+        i <- i + 1
+    }
+    give result
+}
+
+## Returns the sum of all integers from 1 to limit
+func sum_to(limit : num) -> num {
+    var total : num := 0
+    var i     : num := 1
+    loop (i lte limit) {
+        total <- total + i
+        i <- i + 1
+    }
+    give total
+}
+
+## Returns yes if n is even, no if odd
+func is_even(n : num) -> flag {
+    give (n mod 2) is 0
+}
+
+func start() -> nothing {
+    report(`Function tests starting`)
+
+    var d : num := double(21)
+    report(`Double of 21 computed`)
+
+    var f : num := factorial(5)
+    report(`Factorial of 5 computed`)
+
+    var s : num := sum_to(10)
+    report(`Sum 1..10 computed`)
+
+    check (is_even(42) is yes) {
+        report(`42 is even — correct`)
+    }
+
+    check (is_even(7) is no) {
+        report(`7 is odd — correct`)
+    }
+
+    report(`All function tests passed`)
+}

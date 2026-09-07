@@ -1,0 +1,49 @@
+## JOCKY Basic Features Test
+## Tests: variables, arithmetic, conditionals, loops.
+
+func start() -> nothing {
+    ## Variable declarations
+    var x : num := 10
+    var y : num := 3
+
+    ## Arithmetic
+    var sum     : num := x + y
+    var product : num := x * y
+    var quotient: num := x / y
+    var remain  : num := x mod y
+
+    report(`Arithmetic test running`)
+
+    ## Conditional: check/otherwise
+    check (sum gt 10) {
+        report(`Sum is greater than 10`)
+    }
+    otherwise {
+        report(`Sum is 10 or less`)
+    }
+
+    ## Boolean logic
+    var a : flag := yes
+    var b : flag := no
+    var both : flag := a also b
+    check (both is no) {
+        report(`Logical AND works correctly`)
+    }
+
+    ## Loop: count from 1 to 5
+    var i : num := 1
+    loop (i lte 5) {
+        i <- i + 1
+    }
+
+    ## Loop with early exit
+    var j : num := 0
+    loop (j lt 100) {
+        j <- j + 1
+        check (j is 7) {
+            stop
+        }
+    }
+
+    report(`All basic tests passed`)
+}

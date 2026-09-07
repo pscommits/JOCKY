@@ -1,0 +1,74 @@
+## JOCKY Forensic Scanner — SIH Hackathon Demo Script
+##
+## This script demonstrates the JOCKY language's forensic vocabulary.
+## It scans the running process list, checks for a target process,
+## and reports findings.
+##
+## Every keyword in this file is unique to JOCKY — no AV script parser
+## can classify or parse this as a script in any known language.
+##
+## Compile and run:  python compiler.py tests/demo_forensics.jk --run
+
+## Scan the process list for a given process name.
+## Returns yes if found, no if not found.
+func find_process(target : text) -> flag {
+    var procs : raw  := procs_list()
+    var count : num  := proc_count(procs)
+    var idx   : num  := 0
+    var found : flag := no
+
+    loop (idx lt count) {
+        var name : text := proc_name(procs, idx)
+        check (name is target) {
+            found <- yes
+            stop
+        }
+        idx <- idx + 1
+    }
+
+    give found
+}
+
+## Count how many processes are running.
+func count_processes() -> num {
+    var procs : raw := procs_list()
+    give proc_count(procs)
+}
+
+## Entry point — the scanner logic begins here.
+func start() -> nothing {
+    report(`JOCKY Forensic Scanner`)
+    report(`SIH Hackathon — Component 1 Demo`)
+    report(`Initialising process scan...`)
+
+    var total : num := count_processes()
+    report(`Process scan complete`)
+
+    ## Check for known system processes
+    var found_svc : flag := find_process(`svchost.exe`)
+    check (found_svc is yes) {
+        report(`svchost.exe — detected`)
+    }
+    otherwise {
+        report(`svchost.exe — not found`)
+    }
+
+    var found_exp : flag := find_process(`explorer.exe`)
+    check (found_exp is yes) {
+        report(`explorer.exe — detected`)
+    }
+    otherwise {
+        report(`explorer.exe — not found`)
+    }
+
+    ## Check for a suspicious process (not in our stub list)
+    var found_sus : flag := find_process(`malware.exe`)
+    check (found_sus is yes) {
+        report(`ALERT: malware.exe detected`)
+    }
+    otherwise {
+        report(`malware.exe — not present`)
+    }
+
+    report(`Forensic scan finished`)
+}

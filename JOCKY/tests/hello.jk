@@ -1,0 +1,8 @@
+## JOCKY Hello World
+## The simplest possible JOCKY program.
+## Compile and run with:  python compiler.py tests/hello.jk --run
+
+func start() -> nothing {
+    report(`Hello from JOCKY!`)
+    report(`JOCKY compiler is working.`)
+}
